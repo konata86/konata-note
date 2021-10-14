@@ -154,17 +154,31 @@ const Sns = props => {
     if (isBlack) {
         return (
             <BlackWrapper {...props}>
-                <a href="https://twitter.com/konata_sky86/" className="twitter" aria-label="twitterのmyアカウントへ">
+                <a 
+                    href="https://twitter.com/konata_sky86/" 
+                    className="twitter" 
+                    aria-label="twitterのmyアカウントへ"
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                >
                     <FaTwitter />
                 </a>
                 <a
                     href="https://www.instagram.com/konata_sky86/"
                     className="instagram"
                     aria-label="instagramのmyアカウントへ"
+                    target="_blank" 
+                    rel="noopener noreferrer"
                 >
                     <FaInstagram />
                 </a>
-                <a href="https://github.com/konata86/" className="github" aria-label="githubのmyアカウントへ">
+                <a 
+                    href="https://github.com/konata86/" 
+                    className="github" 
+                    aria-label="githubのmyアカウントへ"
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                >
                     <FaGithub />
                 </a>
             </BlackWrapper>
@@ -172,17 +186,31 @@ const Sns = props => {
     } else {
         return (
             <Wrapper {...props}>
-                <a href="https://twitter.com/konata_sky86/" className="twitter" aria-label="twitterのmyアカウントへ">
+                <a 
+                    href="https://twitter.com/konata_sky86/" 
+                    className="twitter" 
+                    aria-label="twitterのmyアカウントへ"
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                >
                     <FaTwitter />
                 </a>
                 <a
                     href="https://www.instagram.com/konata_sky86/"
                     className="instagram"
                     aria-label="instagramのmyアカウントへ"
+                    target="_blank" 
+                    rel="noopener noreferrer"
                 >
                     <FaInstagram />
                 </a>
-                <a href="https://github.com/konata86/" className="github" aria-label="githubのmyアカウントへ">
+                <a 
+                    href="https://github.com/konata86/" 
+                    className="github" 
+                    aria-label="githubのmyアカウントへ"
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                >
                     <FaGithub />
                 </a>
             </Wrapper>

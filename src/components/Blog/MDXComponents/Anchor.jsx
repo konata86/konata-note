@@ -17,7 +17,7 @@ const Wrapper = styled.a`
 
 const myA = props => {
   return (
-    <Wrapper {...props}>
+    <Wrapper target="_blank" rel="noopener noreferrer" {...props}>
       {props.children}
       <BiLinkExternal />
     </Wrapper>

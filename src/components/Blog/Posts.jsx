@@ -22,23 +22,23 @@ const Wrapper = styled.section`
 `
 
 const Posts = ({ posts, title }) => {
-  let titleFlag = Boolean(title)
+    let titleFlag = Boolean(title)
 
-  return (
-    <Wrapper>
-      {titleFlag && (
-        <div className="post-title">
-          <h1>{title}の記事一覧</h1>
-        </div>
-      )}
+    return (
+        <Wrapper>
+            {titleFlag && (
+                <div className="post-title">
+                    <h1>{title}の記事一覧</h1>
+                </div>
+            )}
 
-      <div className="cards-wrapper">
-        {posts.map(post => {
-          return <Card key={post.node.id} {...post.node} />
-        })}
-      </div>
-    </Wrapper>
-  )
+            <div className="cards-wrapper">
+                {posts.map(post => {
+                    return <Card key={post.node.id} {...post.node} />
+                })}
+            </div>
+        </Wrapper>
+    )
 }
 
 
