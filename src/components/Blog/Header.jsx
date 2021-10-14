@@ -246,7 +246,7 @@ const Header = () => {
 
             <MobileMenu>
                 <div className={show ? "mobile-menu menu-open" : "mobile-menu"}>
-                    <button className="btn" onClick={() => setShow(!show)}>
+                    <button className="btn" onClick={() => setShow(!show)} aria-label="メニューを開く">
                         <span></span>
                         <span></span>
                         <span></span>

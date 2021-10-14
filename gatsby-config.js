@@ -12,9 +12,9 @@ module.exports = {
         "gatsby-plugin-gatsby-cloud",
         "gatsby-plugin-image",
         {
-            resolve: "gatsby-plugin-google-analytics",
+            resolve: `gatsby-plugin-google-gtag`,
             options: {
-                trackingId: "UA-209349710-1",
+                trackingIds: ["UA-209349710-1"],
                 pluginConfig: {
                     head: true,
                 },
@@ -25,9 +25,51 @@ module.exports = {
         {
             resolve: "gatsby-plugin-manifest",
             options: {
-                icon: "static/icon.png",
+                name: `此方ノート`,
+                short_name: `此方ノート`,
+                start_url: `/`,
+                background_color: `#ffffff`,
+                theme_color: `#4a9c9c`,
+                display: `standalone`,
+                icon: "static/favicon.png",
             },
         },
+
+        {
+            resolve: 'gatsby-plugin-netlify',
+            options: {
+                headers: {
+                    '/*.html': [
+                        'cache-control: public, max-age=0, must-revalidate'
+                    ],
+                    '/page-data/app-data.json': [
+                        'cache-control: public, max-age=0, must-revalidate'
+                    ],
+                    '/page-data/*': [
+                        'cache-control: public, max-age=0, must-revalidate'
+                    ],
+                    '/static/*': [
+                        'cache-control: public, max-age=31536000, immutable'
+                    ],
+                    '/icons/*': [
+                        'cache-control: public, max-age=31536000, immutable'
+                    ],
+                    '/media/*': [
+                        'cache-control: public, max-age=31536000, immutable'
+                    ],
+                    '/sw.js': [
+                        'cache-control: public, max-age=0, must-revalidate'
+                    ],
+                    '/**/*.js': [
+                        'cache-control: public, max-age=31536000, immutable'
+                    ],
+                    '/**/*.css': [
+                        'cache-control: public, max-age=31536000, immutable'
+                    ],
+                }
+            }
+        },
+        
         {
             resolve: `gatsby-plugin-mdx`,
             options: {
