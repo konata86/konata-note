@@ -1,0 +1,36 @@
+:root {
+  --base-1: rgb(115, 71, 86);
+  --base-2: rgb(237, 105, 100);
+  --base-3: rgb(244, 230, 176);
+  --base-4: rgb(74, 156, 156);
+  --base-5: rgb(66, 84, 135);
+
+  --base-thin-1: rgb(209, 166, 181);
+  --base-thin-2: rgba(237, 105, 100, 0.8);
+  --base-thin-3: rgb(241, 235, 208);
+  --base-thin-4: rgba(174, 224, 194, 0.8);
+  --base-thin-5: rgba(176, 187, 219, 0.8);
+
+  --base-thick-1: rgb(77, 43, 54);
+  --base-thick-2: rgb(187, 73, 69);
+  --base-thick-3: rgb(192, 179, 126);
+  --base-thick-4: rgb(55, 129, 129);
+  --base-thick-5: rgb(45, 59, 100);
+
+  --white: #ffffff;
+  --black: #000000;
+  --gray: gray;
+  --gray-thin-1: rgb(245, 245, 245);
+  --gray-thin-2: rgb(224, 224, 224);
+  --gray-thick-1: rgb(65, 65, 65);
+  --gray-thick-2: rgb(95, 95, 95);
+
+  --twitter: #1da1f2;
+  --instagram: #e1306c;
+  --github: #6cc644;
+}
+
+body {
+  font-family: "ヒラギノ丸ゴ Pro W4", "Hiragino Maru Gothic Pro", "メイリオ",
+    "Meiryo";
+}

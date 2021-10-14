@@ -1,0 +1,187 @@
+---
+title: '【Gatsbyでブログ作り】Gatsbyのインストール手順（Mac版）'
+slug: 'install-gatsby'
+date: 2021-10-12
+category: 'Gatsby'
+banner: './images/banner.png'
+---
+
+import TOC from "../../components/Blog/Complete/TOC"
+
+ここでは、Gatsbyのインストール手順と開発サーバーの起動、ブラウザ上での表示までを解説します。
+
+構築環境は以下の通りです。
+
+
+1. macOS: 11.4
+1. Node.js: v12.19.0
+1. npm: 7.20.0
+1. Gatsby: 3.14.2
+
+
+本記事では以下のことがわかります。
+
+- Node.jsのインストール手順
+- Gatsbyのインストール手順およびスターターのダウンロード方法
+- 開発サーバの起動とブラウザ上での表示
+
+
+<blockquote display="info">
+    <span style='display: block; border-bottom: 1px solid var(--black); margin-bottom: 0.5em;'>
+        本記事の作成者
+    </span>
+    都内の大学院に通う研究生で、プログラム歴4年（Python:3年、JavaScript:1年）。
+</blockquote>
+
+<TOC props={props} />
+
+
+# Node.jsのインストール
+
+Node.jsは本来ブラウザ上で動かすJavaScriptをサーバ上で動くようにした実行環境です。今回、Node.jsに含まれる『npm』と呼ばれるパッケージ管理アプリを用いてGatsbyをインストールしていきます。
+
+## Node.jsパッケージのダウンロードとインストール
+
+![Node.jsのインストール画面（LTS版をクリック）](/images/blog-001.png)
+
+[こちら](https://nodejs.org/ja/)のサイトよりNode.jsをインストールします。
+
+ページに入ったら、LTS版をクリックしてダウンロードします。
+
+ダウンロード先フォルダで、ファイルを開き、インストール手順に従ってNode.jsをインストールしてください。
+
+
+## インストールの確認
+
+インストールが完了したら、ターミナルを開いて以下のコマンドを入力し、`Node.js`と`npm`が正常にインストールされていることを確認します。
+
+
+```
+node -v
+```
+
+```
+npm -v
+```
+
+正常にインストールされていれば、バージョンが出てきます。
+
+
+# Gatsbyのインストール
+
+
+## Gatsby CLIのインストール
+
+以下のコマンドより、Gatsbyをインストールします。
+
+```
+npm install -g gatsby-cli
+```
+
+Node.jsやnpmと同様に以下のコマンドでGatsbyが正常にインストールされていることを確認する。
+
+```
+gatsby -v
+```
+
+正常にインストールされていれば、バージョンが出てきます。
+
+
+## Gatsbyデフォルトスターターのインストール
+
+以下のコマンドを実行し、デフォルトスターターの設定を行います。
+
+```
+gatsby new
+```
+
+### What would you like to call your site?
+
+=> Gatsbyサイト名を決めます。
+
+
+### What would you like to name the folder where your site will be created?
+
+=> Gatsbyサイトのディレクトリ名を決めます。ここで設定したディレクトリ配下にサイト環境が構築されます。
+
+### Will you be using a CMS?
+
+=> 使いたいCMSを選択します。ここは後からでもインストールできるので、`No (or I'll add it later)`でも問題ありません。
+
+### Would you like to install a styling system?
+
+=> 使いたいスタイルを選択します。ここも後から追加できるので`No (or I'll add it later)`で問題ありません。
+
+
+
+これでデフォルトサイトの構築が完了します。
+
+作成したフォルダ内（ここでは`my-first-blog/`とします）へ移動すると、以下のようなファイル/フォルダができていると思います。
+
+```
+my-first-blog/
+    |--src/
+        |--images/
+            |--icon.png
+        |--pages/
+            |--404.js
+            |--index.js
+    |--.gitignore
+    |--package.json
+    |--gatsby-config.js
+    |--package-lock.json
+    |--README.md
+```
+
+## 開発サーバの起動とブラウザの表示
+
+上記の手順で作成したフォルダ内(ここでは`my-first-blog/`)で以下のコマンドを実行します。
+
+```
+gatsby develop
+```
+
+これにより、開発サーバが起動します。
+
+ターミナル上で以下のような表示がされていると思います。
+
+```
+You can now view my-first-blog in the browser.
+
+  http://localhost:8000/
+
+View GraphiQL, an in-browser IDE, to explore your site's data and schema
+
+  http://localhost:8000/___graphql
+
+Note that the development build is not optimized.
+To create a production build, use gatsby build
+
+success Building development bundle - 8.044s
+success Writing page-data.json files to public directory - 0.104s - 3/4 38.62/s
+```
+
+ここに書いてある、`http://localhost:8000/`にブラウザからアクセスすると、
+
+
+![Gatsbyのデフォルトスターターのトップページ](/images/blog-002.png)
+
+上のような画像が表示されれば完了！
+
+また、`http://localhost:8000/___graphql`にアクセスすると、`GraphQL`のアプリケーションが開きます。
+
+![GraphQLのアプリケーション画面](/images/blog-003.png)
+
+
+# まとめ
+
+今回はGatsbyのインストール手順をまとめてみました。
+
+デフォルトのスターターを使用したため、「これがBlog?」と思われた方もいるかもしれません。
+
+しかし、Gatsbyにはテンプレートがたくさんあり、それらをインストールすることで簡単にBlogの作成を行うことが可能です。
+
+興味のある方は、以下にURLを貼っておくので見てみると良いかもしれません。
+
+
+> [Gatsbyのテンプレート](https://www.gatsbyjs.com/starters/)
