@@ -32,6 +32,9 @@ module.exports = {
                 theme_color: `#4a9c9c`,
                 display: `standalone`,
                 icon: "static/favicon.png",
+                icon_options: {
+                    purpose: `maskable`,
+                  },
             },
         },
 
@@ -69,7 +72,7 @@ module.exports = {
                 }
             }
         },
-        
+
         {
             resolve: `gatsby-plugin-mdx`,
             options: {
