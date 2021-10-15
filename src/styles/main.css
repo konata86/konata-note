@@ -9,14 +9,12 @@
   --base-thin-2: rgba(237, 105, 100, 0.8);
   --base-thin-3: rgba(241, 235, 208, 0.8);
   --base-thin-4: rgba(174, 224, 194, 0.8);
-  --base-thin-5: rgba(170, 177, 240, 0.8);
-
-
+  --base-thin-5: rgba(145, 153, 231, 0.8);
 
   --base-thick-1: rgb(77, 43, 54);
   --base-thick-2: rgb(187, 73, 69);
   --base-thick-3: rgb(192, 179, 126);
-  --base-thick-4: rgb(55, 129, 129);
+  --base-thick-4: rgb(62, 144, 144);
   --base-thick-5: rgb(45, 59, 100);
 
   --white: #ffffff;

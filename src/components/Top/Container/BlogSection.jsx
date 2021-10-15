@@ -56,12 +56,12 @@ const Wrapper = styled.div`
   .date {
     display: inline-block;
     margin-right: 10px;
-    color: var(--gray);
+    color: var(--gray-thick-2);
     font-size: 0.9em;
   }
 
   .category {
-    background-color: var(--base-4);
+    background-color: var(--base-thick-4);
     font-size: 11px;
     font-weight: 550;
     padding: 5px;
