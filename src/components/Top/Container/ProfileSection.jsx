@@ -4,9 +4,9 @@ import styled from "styled-components"
 import { FaLightbulb, FaPenNib, FaKey } from "react-icons/fa"
 
 const Wrapper = styled.section`
-  background-color: var(--base-thin-2);
+  background-color: var(--base-thin-1);
   padding: 80px 40px;
-  color: var(--white);
+  color: var(--gray-thick-1);
 
   .title {
     font-weight: 550;
@@ -15,9 +15,12 @@ const Wrapper = styled.section`
     border-bottom: 2px solid var(--gray-thick-1);
     border-image: linear-gradient(
       to right,
-      var(--white) 0%,
-      var(--base-2) 100%
+      var(--gray-thick-1) 0%,
+      var(--gray-thin-2) 100%
     );
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
     border-image-slice: 1;
     margin-bottom: 10px;
   }
@@ -49,7 +52,7 @@ const Wrapper = styled.section`
 
   .my-name {
     span {
-      background: linear-gradient(transparent 70%, var(--base-2) 70%);
+      background: linear-gradient(transparent 70%, var(--base-3) 70%);
     }
   }
 `
@@ -89,7 +92,9 @@ const ProfileSection = () => {
                 <p className="my-name">
                     <span>此方そら/Sora Konata</span>
                 </p>
-                <p>東京都在住。都内大学電気電子工学科卒業。現在は同大学院に在籍中。</p>
+                <p>
+                    東京都在住。都内大学電気電子工学科卒業。現在は同大学院に在籍中。
+                </p>
                 <p>
                     大学院では機械学習に関する研究を実施。主にPythonを用いてプログラムを記述。
                 </p>
@@ -103,8 +108,8 @@ const ProfileSection = () => {
                     <FaKey className="icon" />
                     <span>キーワード</span>
                 </h3>
-                <p>Python/HTML/CSS/SASS</p>
-                <p>JavaScript/TypeScript/Gatsby/</p>
+                <p>Python/HTML/CSS/SASS/CSSinJS</p>
+                <p>JavaScript/React/Gatsby</p>
             </div>
         </Wrapper>
     )

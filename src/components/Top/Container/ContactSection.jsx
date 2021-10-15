@@ -21,6 +21,9 @@ const Wrapper = styled.section`
       var(--gray-thick-1) 0%,
       var(--gray-thin-2) 100%
     );
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
     border-image-slice: 1;
     margin-bottom: 10px;
   }
@@ -37,6 +40,7 @@ const Wrapper = styled.section`
     color: var(--base-5);
     border: solid 2px var(--base-5) !important;
     position: relative;
+    background-color: var(--white);
     z-index: 1;
 
     :before {

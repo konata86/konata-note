@@ -1,15 +1,17 @@
 :root {
-  --base-1: rgb(115, 71, 86);
+  --base-1: rgb(255, 132, 32);
   --base-2: rgb(237, 105, 100);
-  --base-3: rgb(244, 230, 176);
+  --base-3: rgb(255, 242, 123);
   --base-4: rgb(74, 156, 156);
-  --base-5: rgb(66, 84, 135);
+  --base-5: rgb(66, 84, 135); 
 
-  --base-thin-1: rgb(209, 166, 181);
+  --base-thin-1: rgba(126, 199, 218, 0.8);
   --base-thin-2: rgba(237, 105, 100, 0.8);
-  --base-thin-3: rgb(241, 235, 208);
+  --base-thin-3: rgba(241, 235, 208, 0.8);
   --base-thin-4: rgba(174, 224, 194, 0.8);
   --base-thin-5: rgba(176, 187, 219, 0.8);
+
+
 
   --base-thick-1: rgb(77, 43, 54);
   --base-thick-2: rgb(187, 73, 69);

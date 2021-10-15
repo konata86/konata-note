@@ -17,8 +17,8 @@ const Wrapper = styled.section`
     font-size: 1.8em;
     color: var(--white);
     font-weight: bold;
-    background-color: var(--base-4);
-    opacity: 0.8;
+    background-color: var(--base-1);
+    opacity: 0.6;
     padding: 7px 7px;
     margin: 10px 10px;
   }

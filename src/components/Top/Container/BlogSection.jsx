@@ -19,6 +19,9 @@ const Wrapper = styled.div`
       var(--gray-thick-1) 0%,
       var(--gray-thin-2) 100%
     );
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
     border-image-slice: 1;
     margin-bottom: 10px;
   }
@@ -79,6 +82,7 @@ const Wrapper = styled.div`
     padding: 10px 20px;
     border: solid 2px var(--base-4) !important;
     color: var(--base-4);
+    background-color: var(--white);
     position: relative;
     z-index: 1;
     transition: 0.3s ease;
