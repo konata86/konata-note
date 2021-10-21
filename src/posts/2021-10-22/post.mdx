@@ -1,0 +1,456 @@
+---
+title: '【Pythonで実装】木構造とは何か、Higraによる木構造の解析方法を解説。'
+slug: 'about-higra'
+date: 2021-10-22
+category: 'Python'
+banner: './images/banner.png'
+---
+
+import TOC from "../../components/Blog/Complete/TOC"
+
+本記事ではアルゴリズムの世界における木構造とは何かについて説明します。
+
+さらに、階層構造の解析に特化したライブラリHigraによる実装を行い、実際に木構造の解析方法を学んでいきます。
+
+研究で使うようなライブラリのため、少々ニッチな内容となりますが、できるだけわかりやすく解説できればと思います。
+
+本記事では以下のことがわかります。
+
+- 木構造の概要
+- Higraの概要とインストール方法
+- Treesクラスの使い方
+
+
+<blockquote display="info">
+    <span style='display: block; border-bottom: 1px solid var(--black); margin-bottom: 0.5em;'>
+        本記事の作成者
+    </span>
+    都内の大学院に通う研究生で、プログラム歴4年（Python:3年、JavaScript:1年）。
+</blockquote>
+
+<TOC props={props}/>
+
+# 木構造の基本
+
+アルゴリズムにおける`木`とは、節(node)と枝(edge)の三つ要素からなる構造です。
+
+![木構造と各要素の名称](/images/blog-001.png)
+
+図の上側を上流、下側を下流と呼びます。
+
+節の中でも、最も上流にいる節を根(root)、最も下流にいる節を葉(leaf)といいます。
+
+では、この木構造はどのように使われるのでしょうか？
+
+
+# 木構造の使い方
+
+## ソート
+
+`ヒープソート`が木構造を用いたソート方法の代表ですね。
+
+ヒープソートでは、まずヒープと呼ばれる木を作成します。ヒープはどの親子関係をとっても必ず`親の値≧子の値`が成立します。
+
+ヒープはルートの値が<strong display="marker">最大値</strong>となります。
+
+この性質を用い、ルートを取り出す→最後の要素をルートへ→ヒープ化→ルートを取り出す…、を繰り返すことでソートします。
+
+Pythonで書くと以下のようになります。
+
+```python
+
+class HeapSort:
+
+    #配列上のidx1とidx2の値を交換
+    def swap(self, arr, idx1, idx2):
+        temp = arr[idx1]
+        arr[idx1] = arr[idx2]
+        arr[idx2] = temp
+        return arr
+
+    # arr[left]~arr[right]までをヒープ化
+    def heap(self, arr, left, right):
+        temp = arr[left] # 根
+
+        parent = left
+        while(parent < (right + 1) // 2):
+            cl = parent * 2 + 1 # 左の子
+            cr = cl + 1 # 右の子
+
+            # child: 大きい方の子
+            if(cr <= right and arr[cr] > arr[cl]):
+                child = cr
+            else:
+                child = cl
+            
+            if(temp >= arr[child]):
+                break
+            arr[parent] = arr[child]
+            parent = child
+        arr[parent] = temp
+
+        return arr        
+
+    # ヒープソートします
+    def heapSort(self, arr):
+        length = len(arr)
+
+        i = (length - 1)//2 # 一番最後のノードの親ノード
+        while(i >= 0):
+            arr = self.heap(arr, i, length - 1)
+            i -= 1
+        i = length - 1 
+        while(i > 0):
+            arr = self.swap(arr, 0, i) # 最大要素とソートされていない部分の末尾要素を交換
+            arr = self.heap(arr, 0, i - 1) # arr[0]~arr[i-1]をヒープ化 
+            i -= 1
+        
+        return arr
+
+
+def main():
+    
+    heap_sort = HeapSort()
+
+    numbers = [32, 2, 8, 11, 25, 140, 62, 10, 90]
+    sorted = heap_sort.heapSort(numbers)
+
+    print("Input : {}".format(numbers))
+    print("Sorted: {}".format(sorted))
+
+if __name__ == "__main__":
+    main()
+
+```
+
+## 探索
+
+`2分探索木`も木構造を用いた探索方法の代表です。
+
+`2分木`という木を作成し、根から徐々に下のノードへ探索していきます。
+
+以下のコードは幅優先探索をPythonで実装したものになります。
+
+
+```python
+import random
+
+class Node:
+    
+    def __init__(self, data):
+        self.data  = data # ノード値
+        self.left  = None # 左の子
+        self.right = None # 右の子
+    
+class BinarySearchTree:
+
+    def __init__(self):
+        self.root = None
+    
+    def getTree(self):
+        return self.root
+    
+    # 2分木を作る
+    def insert(self, data):
+        if self.root is None: # ルートがNone
+            self.root = Node(data)
+        else:
+            self._insert(data, self.root)
+        
+    def _insert(self, data, node):
+        if data < node.data:
+            if node.left is not None:
+                self._insert(data, node.left)
+            else:
+                node.left = Node(data)
+        else:
+            if node.right is not None:
+                self._insert(data, node.right)
+            else:
+                node.right = Node(data)
+        
+    # 幅優先探索    
+    def search(self, key):
+        if self.root == None:
+            return 
+        else:
+            self._search(key, self.root)
+
+    def _search(self, key, node):
+
+        # 探索の失敗
+        if node is None:
+            print('The key: {} was not existed.'.format(key))
+        
+        else:
+            if key == node.data:
+                print('Get the key: {}'.format(node.data))
+            elif key > node.data: # keyが対象ノード値より大きい
+                self._search(key, node.right) # 右の子要素へ
+            else: # keyが対象ノード値より小さい
+                self._search(key, node.left) # 左の子要素へ     
+
+
+def main():
+
+    data = list(range(0, 20))
+    random.seed(0)
+    random.shuffle(data)
+    print("Input: {}".format(data))
+
+    bst = BinarySearchTree()
+    
+    for n in data:
+        bst.insert(n)
+    
+    key = 9
+    bst.search(key)
+
+
+if __name__ == "__main__":
+    main()
+```
+
+
+ここでは詳しく書きませんが、興味のある方はこちらのサイトと書籍がおすすめです（参考にしました）。
+
+### サイト
+
+> [[Python] 2分木/binary tree](https://yottagin.com/?p=3268)
+
+
+### 書籍
+
+> 柴田 望洋(著), "明解Javaによるアルゴリズムとデータ構造", (2007)
+
+
+# Higraとは
+
+さて、ここで本題に入ります。
+
+`Higra`はpythonライブラリの一種で、階層構造やグラフの解析に特化したクラス・メソッドを保有しています。
+
+
+<blockquote display="info">
+    Higra: `Hierarchical Graph Analysis` からきているみたいです。
+</blockquote>
+
+
+> [Higra公式ドキュメント](https://higra.readthedocs.io/en/stable/)
+
+
+# Higraのインストール方法
+
+以下のpipコマンドをターミナル上で入力。これだけです。
+
+```cmd
+pip install higra
+```
+
+> [Higra(Github)](https://github.com/higra/Higra/tree/cee6734a682ed9ff34dc070edc52edd02c4d5d4d)
+
+
+HigraのGithubを見てみると、階層構造やグラフの可視化ツールがあるようです。
+
+
+今回は公式ドキュメントを参考に、<strong display="marker">Treesクラス</strong>についてみていこうと思います。
+
+> [公式ドキュメント(Trees class)](https://higra.readthedocs.io/en/stable/tree.html)
+
+||
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+|**node**|0|1|2|3|4|5|6|7|8|9|10|11|
+|**parent**|7|7|8|8|8|9|9|11|10|10|11|11|
+
+
+とりあえず、公式ドキュメントと同様の木を使います。
+
+図にすると以下。
+
+![公式ドキュメントの木](/images/blog-002.png)
+
+
+# Trees クラス
+
+## 初期値（コンストラクタ）
+
+初期値として、親ノードの配列を並べます。
+
+```python
+import higra as hg
+
+g = hg.Tree((7, 7, 8, 8, 8, 9, 9, 11, 10, 10, 11, 11))
+print(g) # <higra.higram.Tree object at ...>
+```
+
+と、オブジェクトであることがわかります。
+
+## 基本関数
+
+|関数|返値|備考|
+|:---:|:---:|:---|
+|num_leaves|正のint型|木の葉ノードの数を返します|
+|root|ノード|ルートノードを返します|
+|parent|ノード|ノードの親を返します|
+|parents|ノードの配列|親の配列を返します|
+|is_leaf|boolean型|葉ノードであるかを判定します|
+
+
+一つずつみていきましょう
+
+### num_leaves
+
+葉ノードの総数が返されます。
+
+```python
+g.num_leaves() # 7
+```
+
+### root
+
+ルートのノード値が返されます。
+
+```python
+g.root() # 11
+```
+
+### parent
+
+引数のインデックスに属するノードの親ノードの値が返されます。引数にはリストやタプルを指定できます。
+
+```python
+g.parent(1) # 7
+g.parent((3, 11, 8)) # array([ 8, 11, 10])
+```
+
+### parents
+
+全ての親ノードの値を配列として返します。
+
+```python
+g.parents() # array([ 7,  7,  8,  8,  8,  9,  9, 11, 10, 10, 11, 11])
+```
+
+### is_leaf
+
+指定したインデックスに属するノードが葉ノードならTrue、それ以外はFalseとして返されます。
+
+```python
+g.is_leaf(1) # True
+g.is_leaf(10) # False
+g.is_leaf((2, 8, 11)) # array([ True, False, False])
+```
+
+## イテレータ
+
+|関数|返値|備考|
+|:---:|:---:|:---|
+|leaves|イテレータ|木の葉ノードをイテレータとして返します|
+|ancestors|イテレータ|引数で指定したノードから上流のノードをイテレータとして返します|
+|leaves_to_root_iterator|イテレータ|葉から根に向かってのノードをイテレータとして返します|
+|root_to_leaves_iterator|イテレータ|根から葉に向かってのノードをイテレータとして返します|
+
+
+ここでも、一つひとつ見ていきましょう。
+
+### leaves
+
+葉の全ノードをイテレータとして返します。
+
+```python
+for n in g.leaves():
+    print(n) # 0 1 2 3 4 5 6
+```
+
+### ancestors
+
+指定した引数から上流(ルートまで)のノードをイテレータとして返してくれます。必ず引数を入れましょう。
+
+```python
+for n in g.ancestors(4):
+    print(n) # 4 8 10 11
+```
+
+### leaves_to_root_iterator
+
+葉から根に向かってのノードをイテレータとして返してくれます。引数に葉を含ませるか(`include_leaves`)、ルートを含ませるか(`include_root`)を指定できます。
+
+```python
+for n in g.leaves_to_root_iterator():
+    print(n) # 0 1 2 3 4 5 6 7 8 9 10 11
+
+for n in g.root_to_leaves_iterator(include_leaves=True, include_root=False):
+    print(n) # 10 9 8 7 6 5 4 3 2 1 0
+
+for n in g.root_to_leaves_iterator(include_leaves=False, include_root=True):
+    print(n) # 11 10 9 8 7
+
+for n in g.root_to_leaves_iterator(include_leaves=False, include_root=False):
+    print(n) # 10 9 8 7
+```
+
+### root_to_leaves_iterator
+
+`leaves_to_root_iterator`とは逆順のイテレータを返してくれます。同様に葉とルートの有無を指定できます。
+
+```python
+for n in g.leaves_to_root_iterator():
+    print(n) # 0 1 2 3 4 5 6 7 8 9 10 11
+```
+
+## 子ノード
+
+|関数|返値|備考|
+|:---:|:---:|:---|
+|num_children|正のint型|指定されたノードがもつ子ノードの数を返します|
+|child|ノード|指定されたノードのi番目子ノードを返します|
+|children|イテレータ|指定されたノードの全子ノードをイテレータとして返します|
+
+
+### num_children
+
+引数に子ノードの数が知りたいのノードを代入すると、その子ノードの数が返ってきます。
+
+複数知りたい場合はリストやタプルも引数に入れられます。
+
+```python
+g.num_children(10) # 2
+g.num_children([4, 8, 11]) # array([0, 3, 2], dtype=uint64)
+```
+
+### child
+
+![No.10は2つの子ノードをもっている](/images/blog-003.png)
+
+第１引数に子ノードのインデックス（例えばノードNo.10は2つの子ノードをもつので、0か1）を、第２引数に親ノードの値を入れると、第１引数のインデックスをもつ子ノードが返ってきます。
+
+こちらも、複数知りたい時はリストやタプルを引数に入れます。
+
+```python
+g.child(0, 10) # 8
+g.child(1, 10) # 9
+
+g.child(0, [7, 8, 11]) # array([0, 2, 7])
+```
+
+### children
+
+引数で指定したノードの子ノード全てをイテレータとして返します。
+
+必ず引数を入れましょう。
+
+```python
+for i in g.children(8):
+    print(i) # 2 3 4
+```
+
+
+# まとめ
+
+今回はアルゴリズムにおける`木`についての簡単な説明とHigraライブラリによるTreesクラスについて学びました。
+
+Higraライブラリは`numpy`や`matplotlib`といった有名ライブラリと比べるとあまり認知度が高くなく、日本語の記事が少ないという現状だったので、今回この記事を書かせていただきました。
+
+Higraには他にも様々なグラフ・階層構造関係の関数があるので、今後も紹介できたらなと思います。
+
+

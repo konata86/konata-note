@@ -5,6 +5,7 @@ import { myOl, myUl } from "./List"
 import { myCode, myInlineCode } from "./Code"
 import { myA } from "./Anchor"
 import { myStrong } from "./Strong"
+import { myTable, myThead, myTbody } from "./Table"
 
 const components = {
     h1: myH1,
@@ -21,6 +22,9 @@ const components = {
     pre: myCode,
     inlineCode: myInlineCode,
     strong: myStrong,
+    table: myTable,
+    thead: myThead,
+    tbody: myTbody,
 }
 
 

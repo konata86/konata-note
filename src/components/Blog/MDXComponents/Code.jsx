@@ -7,19 +7,28 @@ const Wrapper = styled.div`
   margin-bottom: 5em;
 
   .language {
-    margin-left: 85%;
-    padding: 5px 10px 8px 10px;
+    display: inline-block;
+    padding: 5px 12px 8px 12px;
+    margin-bottom: -4px;
     border-radius: 3px;
     font-size: 0.8em;
     font-weight: bold;
-    background-color: rgb(30, 30, 30);
-    color: rgb(156, 220, 254);
+    background-color: #0099ff;
+    color: var(--white);
+    z-index: -1;
   }
 
   pre {
+    position: relative;
     padding: 15px 25px;
     border-radius: 3px;
     font-size: 0.9em;
+
+    div {
+        > span:last-child{
+            margin-right: 1em;
+        }
+    }
   }
 `
 
