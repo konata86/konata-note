@@ -7,14 +7,14 @@ const Wrapper = styled.div`
     width: 100%;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+    margin-bottom: 5em;
 
     table {
-        margin-bottom: 5em;
+
         margin-left: auto;
         margin-right: auto;
         display: table;
         
-
         width: 95%;
         border-collapse: collapse;
         border-spacing: 0;
