@@ -8,9 +8,9 @@ const Wrapper = styled.div`
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     margin-bottom: 5em;
+    
 
     table {
-
         margin-left: auto;
         margin-right: auto;
         display: table;
@@ -18,13 +18,15 @@ const Wrapper = styled.div`
         width: 95%;
         border-collapse: collapse;
         border-spacing: 0;
+        table-layout: fixed;
     }
     
 
     th, td{
         padding: 10px 15px;
-        min-width: 100px;
         overflow: auto;
+        width: 120px;
+        min-width: 120px;
     }
 `
 
@@ -36,6 +38,7 @@ const TableHead = styled.thead`
         text-align: center;
         color: var(--white);
     }
+
 `
 
 const TableNonHead = styled.thead`
