@@ -16,12 +16,22 @@ const Wrapper = styled.a`
 `
 
 const myA = props => {
-  return (
-    <Wrapper target="_blank" rel="noopener noreferrer" {...props}>
-      {props.children}
-      <BiLinkExternal />
-    </Wrapper>
-  )
+
+    if (props.className === "gatsby-resp-image-link") {
+        return (
+            <Wrapper target="_blank" rel="noopener noreferrer" {...props}>
+                {props.children}
+            </Wrapper>
+        )
+    }
+    else {
+        return (
+            <Wrapper target="_blank" rel="noopener noreferrer" {...props}>
+                {props.children}
+                <BiLinkExternal />
+            </Wrapper>
+        )
+    }
 }
 
 
