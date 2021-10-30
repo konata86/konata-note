@@ -6,6 +6,7 @@ import { myCode, myInlineCode } from "./Code"
 import { myA } from "./Anchor"
 import { myStrong } from "./Strong"
 import { myTable, myThead, myTbody } from "./Table"
+import { myImg } from "./Image"
 
 const components = {
     h1: myH1,
@@ -25,6 +26,7 @@ const components = {
     table: myTable,
     thead: myThead,
     tbody: myTbody,
+    img: myImg,
 }
 
 
