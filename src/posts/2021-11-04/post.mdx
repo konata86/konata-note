@@ -1,0 +1,108 @@
+---
+title: '【Python備忘録】辞書型でまとめた値のリストをCSVに出力する'
+slug: 'dict-to-csv'
+date: 2021-11-04
+category: 'Python'
+banner: './images/banner.png'
+---
+
+import TOC from "../../components/Blog/Complete/TOC"
+
+深層学習で損失が複数あるときに、辞書型のkeyで損失名を決めて、valueをリストにして保管していくと便利です。
+
+しかし、いざCSVに落とそうとすると全部の損失のリストを一括でひとつずつ取り出すにはどうするのか困ります。
+
+そこで、備忘録としてまとめておきます。
+
+
+<blockquote display="info">
+    <span style='display: block; border-bottom: 1px solid var(--black); margin-bottom: 0.5em;'>
+        本記事の作成者
+    </span>
+    都内の大学院に通う研究生で、プログラム歴4年（Python:3年、JavaScript:1年）。
+</blockquote>
+
+<TOC props={props}/>
+
+# 損失ぽいデータの生成
+
+```python
+results = {} # 辞書型として定義
+
+results["train/loss"]  = []
+results["train/loss1"] = []
+results["train/loss2"] = []
+results["valid/loss"]  = []
+results["valid/loss1"] = []
+results["valid/loss2"] = []
+
+np.random.seed(86)
+
+# データの生成
+for i in range(100):
+    
+    eps = i * 0.1
+
+    train_loss1 = exp(eps + np.random.randn(1), 5)
+    train_loss2 = exp(eps + np.random.randn(1), 5)
+
+    train_loss = train_loss1 + train_loss2
+
+    valid_loss1 = exp(eps + np.random.randn(1), 10)
+    valid_loss2 = exp(eps + np.random.randn(1), 10)
+
+    valid_loss = valid_loss1 + valid_loss2
+
+    results["train/loss"] .append(train_loss.item())
+    results["train/loss1"].append(train_loss1.item())
+    results["train/loss2"].append(train_loss2.item())
+    results["valid/loss"] .append(valid_loss.item())
+    results["valid/loss1"].append(valid_loss1.item())
+    results["valid/loss2"].append(valid_loss2.item())
+
+```
+
+ちなみに、`exp()`は、以下のような関数とします。
+
+```python
+def exp(x, shift):
+    return np.exp(-x+shift)
+
+```
+
+# 辞書のCSV保存
+
+あとはこの辞書resultsの損失値を全て保存します。
+
+コードは以下。
+
+```python
+# csv保存
+with open('loss.csv', mode='w', encoding='utf-8', newline='') as f:
+    writer = csv.writer(f)
+    writer.writerow(results.keys())
+
+    for v in zip(*results.values()):
+        writer.writerow(v)
+```
+
+`zip`とアンパックのアスタリスク`*`を使って、数値を一つずつ取り出していきます。
+
+出力です。値が保存されていることが確認できます。
+
+```loss.csv
+train/loss,train/loss1,train/loss2,valid/loss,valid/loss1,valid/loss2
+541.319495638968,269.42383082854843,271.89566481041953,55027.49570733776,13949.826637029495,41077.669070308264
+492.1264287143858,67.1186099998303,425.00781871455547,100283.82821499136,96995.45173203872,3288.3764829526335
+164.844248262245,126.8866009576949,37.95764730455011,38467.34937151658,9345.774020215991,29121.575351300595
+...
+```
+
+
+> [Pythonでzipを使ってJSONライクなdictをいい感じにforループで回す](https://blog.shikoan.com/json-dict-zip/)
+
+
+# まとめ
+
+今回は複数の値をリストでまとめた辞書をCSV保存する方法について、備忘録として書き留めておきました。
+

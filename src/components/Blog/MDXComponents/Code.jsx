@@ -47,13 +47,12 @@ const myCode = props => {
   const codeLanguage = className.replace("language-", "")
   const themeColor = theme // to avoid error
 
-  const upperLanguage = codeLanguage.toUpperCase()
   const defaultLanguage = "cmd"
 
   if (codeLanguage) {
     return (
       <Wrapper>
-        <span className="language">{upperLanguage}</span>
+        <span className="language">{codeLanguage}</span>
 
         <Highlight
           {...defaultProps}
