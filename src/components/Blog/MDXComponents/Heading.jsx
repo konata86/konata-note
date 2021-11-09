@@ -44,7 +44,6 @@ const HeadingSix = styled.h6`
 
 
 const myH1 = ( props  => {
-
     return (
         <HeadingOne {...props}>
             {props.children}

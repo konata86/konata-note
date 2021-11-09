@@ -1,0 +1,460 @@
+---
+title: '【Gatsbyでブログ作り】MDXComponentとは何か？使い方を詳しく解説！'
+slug: 'about-mdx-component'
+date: 2021-11-10
+category: 'Gatsby'
+banner: './images/banner.png'
+---
+
+import TOC from "../../components/Blog/Complete/TOC"
+
+
+パソコンで文章で書くとき、何かと便利なマークダウン。
+
+最近はマークダウンにReactのコンポーネントを埋め込める[MDX](https://mdxjs.com/)という拡張版ができました。
+
+静的サイトジェネレータの`Gatsby`もMDXに対応したプラグイン`gatsby-plugin-mdx`があります。
+
+MDXで書いた記事にスタイルを当てるさい、CSSファイルに記述するというのが一般的かもしれません。
+
+しかし、GatsbyのMDXプラグインのモジュールである`MDXComponent`を用いることで、各タグをコンポーネントに分けることができ、メンテナンス性や可読性があがります。
+
+また、タグの引数を変えることで、表示方法を変更することも可能です。
+
+本記事では、MDXComponentの使用方法について見ていきたいと思います。
+
+
+<blockquote display="info">
+    <span style='display: block; border-bottom: 1px solid var(--black); margin-bottom: 0.5em;'>
+        本記事の作成者
+    </span>
+    都内の大学院に通う研究生で、プログラム歴4年（Python:3年、JavaScript:1年）。
+</blockquote>
+
+<TOC props={props} />
+
+
+# MDXプラグインのインストール
+
+## gatsby-plugin-mdxのインストール
+
+[こちらのサイト](https://www.gatsbyjs.com/docs/how-to/routing/mdx/)にしたがって、gatsbyのMDXプラグインをインストールします。
+
+```shell
+    npm install gatsby-plugin-mdx @mdx-js/mdx @mdx-js/react
+```
+
+インストールしたら、gatsby-config.jsに以下を追記。
+
+```js
+    module.exports = {
+        plugins: [
+            // ....
+            `gatsby-plugin-mdx`,
+        ],
+    }
+```
+
+## gatsby-plugin-styled-componentのインストール
+
+また、今回は`CSSinJS`を扱うため、[styled-component](https://www.gatsbyjs.com/docs/how-to/styling/styled-components/)も合わせてインストールします。
+
+```shell
+    npm install gatsby-plugin-styled-components styled-components babel-plugin-styled-components
+```
+
+同様にgatsby-config.jsに追記。
+
+```js
+    module.exports = {
+        plugins: [
+            // ....
+            `gatsby-plugin-mdx`,
+            `gatsby-plugin-styled-components`,
+        ],
+    }
+```
+
+# フォルダ階層
+
+```
+RootDirectory/
+    |--src/
+        |--components/
+            |--MDXComponents/
+                |--Heading.jsx
+                |--Blockquote.jsx
+            |--ContentArticle.jsx
+        |--templates/
+            |--blog-template.jsx
+        |--posts/
+            |--記事1
+            |--記事2
+            |...
+    |--.gitignore
+    |--package.json
+    |--gatsby-config.js
+    |--package-lock.json
+    |--README.md
+```
+
+# h1タグの設定
+
+## Heading.jsx
+
+ここでは、使用例としてh1タグについて解説していこうと思います。ソースコードは以下。
+
+
+```jsx
+// Heading.jsx
+
+import React from "react"
+import styled from "styled-components"
+
+const HeadingOne = styled.h1`
+    background-color: rgb(74, 156, 156);
+    color: white;
+    padding: 10px 20px;
+    margin-bottom: 2em;
+    font-size: 26px;
+    border-radius: 3px;
+`
+
+const myH1 = ( props  => {
+    return (
+        <HeadingOne {...props}>
+            {props.children}
+        </HeadingOne>
+    )
+})
+
+export { myH1 }
+
+```
+
+styled componentsは、
+
+```
+const 変数名 = styled.タグ名`
+    /* css */
+`
+```
+
+という文法で記述し、jsxコンポーネントとして扱えます。
+
+変数名はわかりやすいものであればなんでもOKです。
+
+私の場合、hタグはh1〜h6まであるので、HeadingOne、HeadingTwo…、のように名前をつけましたが、他のタグはほぼWrapperにしています（面倒なので）。
+
+class名を考える必要がないということは、この`CSSinJS`のメリットです。
+
+ただ、動的にランダムな文字列がクラス名として割り当てられるので、デバッグの際少しだけ面倒です。
+
+さて、最終段に記述した関数について、
+
+```jsx
+const myH1 = ( props  => {
+    return (
+        <HeadingOne {...props}>
+            {props.children}
+        </HeadingOne>
+    )
+})
+
+export { myH1 }
+```
+
+&lt;HeadingOne&gt;タグ内の{props.children}にh1のスタイルが適用されます。
+
+最後に関数を外部のモジュールから参照できるようにexportしておきます。
+
+
+## RootMDX.jsx
+
+次に、RootMDX.jsxにタグごとのコンポーネントをひとまとめにします。
+
+Heading.jsxと同じフォルダ内にRootMDX.jsxを作成し、以下を記述します。
+
+```jsx
+// RootMDX.jsx
+
+import { myH1 } from "./Heading"
+
+const components = {
+    h1: myH1,
+}
+
+export { components }
+```
+
+## MDXComponentの適用
+
+最後にRootMDXに適用したスタイルを読み込むコンポーネントを作成します。
+
+今回は`ContentArticle.jsx`をRootMDX.jsxの一つ上のフォルダに作成しました。
+
+```jsx
+# ContentArticle.jsx
+
+import { MDXProvider } from "@mdx-js/react"
+import { MDXRenderer } from "gatsby-plugin-mdx"
+import React from "react"
+import { components } from "./MDXComponents/RootMDX"
+
+const ContentArticle = ( { post } ) => 
+{
+
+  return (
+    <>
+        <MDXProvider components={components}>
+            <MDXRenderer>
+                {post}
+            </MDXRenderer>
+        </MDXProvider>    
+    </>
+  )
+
+}
+
+export default ContentArticle
+```
+
+これでMDXにスタイルを当てるコンポーネントの完成です。
+
+
+## *template.jsxからの呼び出し
+
+あとはテンプレートファイルでMDXファイルの情報を呼び出し、ContentArticleコンポーネントの引数に渡すことでMDXにスタイルが適用されます。
+
+今回はGraphQLを用いて、body情報を読み取ります。
+
+GraphQLのクエリは必要に応じて変更してください。
+
+<blockquote display="warn">
+    このコードは簡易版なのでこれだけでは動きません。posts/フォルダ内にmdx形式の記事を作成し、GraphQLのクエリとgatsby-node.jsを設定(createPage)する必要があります。
+</blockquote>
+
+```jsx
+// blog-template.jsx
+import React from "react"
+
+import ContentArticle from "../components/Blog/ContentArticle"
+
+import { graphql } from "gatsby"
+
+
+const BlogTemplate = ({ data }) => {
+
+    const {
+        mdx: {
+            body,
+        },
+    } = data
+
+    return (
+        <>
+            <ContentArticle post={body} />
+        </>
+    )
+}
+
+export const query = graphql`
+  query GetSinglePost($slug: String) {
+    mdx(frontmatter: { slug: { eq: $slug } }) {
+      frontmatter {
+        slug
+        }
+      }
+      body
+    }
+  }
+`
+export default BlogTemplate
+
+```
+
+のようにすると、MDXに適用されます。
+
+
+# blockquoteタグの設定
+
+先ほどはh1タグの設定を見てきましたので、次にblockquoteタグ(引用タグ)について見ていきます。
+
+## Blockquote.jsx
+
+今回は[react-icons](https://react-icons.github.io/react-icons/)を用いるので、以下のコマンドでインストールしてください。
+
+```shell
+    npm install react-icons --save
+```
+
+Heading.jsxと同様のフォルダ内にBlockquote.jsxを作成します。
+
+Blockquoteでは引数に`children`と`display`をもちます。
+
+`children`はHeading.jsxのprops.childrenと同様です。
+
+`display`はその引数として与える文字列によって、表示方法を変更するようにしました。
+
+コードは以下。
+
+```jsx
+# Blockquote.jsx
+import React from "react"
+import styled from "styled-components"
+
+import { FaQuoteLeft } from 'react-icons/fa'
+import { FiInfo } from 'react-icons/fi'
+import { TiWarningOutline } from 'react-icons/ti'
+
+const Wrapper = styled.blockquote`
+
+    position: relative;
+    box-shadow: 2px 2px 5px var(--gray-thin-2);
+    margin-bottom: 5em;
+
+    p.info {
+        border-left: solid 4px var(--base-5);
+        background-color: rgb(234, 240, 255);
+        color: var(--gray-thick-1);
+        
+        .icon {
+            color: var(--base-5);
+        }
+    }
+
+    p.warn {
+        border-left: solid 4px var(--base-2);
+        background-color: rgb(255, 230, 228);
+        color: var(--gray-thick-1);
+
+        .icon {
+            color: var(--base-2);
+        }
+    }
+
+
+    .icon {
+        position: absolute;
+        top: 0.4em;
+        left: 0.6em;
+        color: var(--base-4);
+        font-size: 24px;
+    }
+
+    p {
+        background-color: var(--gray-thin-1);
+        padding: 20px 30px 20px 50px;
+        color: var(--gray);
+        border-left: solid 4px var(--base-4);
+    }
+    
+`
+
+const myBlockquote = ({ children, display }) => {
+
+    if (display === "info"){
+        return (
+            <Wrapper>
+                <p className='info'>
+                    <FiInfo className='icon' />
+                        {children}
+                </p>
+            </Wrapper>
+        )
+    }
+
+    if (display === "warn"){
+        return (
+            <Wrapper>
+                <p className='warn'>
+                    <TiWarningOutline className='icon' />
+                        {children}
+                </p>
+            </Wrapper>
+        )
+    }
+
+    else{
+        return (
+            <Wrapper>
+                <FaQuoteLeft className='icon' />
+                    {children}
+            </Wrapper>
+        )
+    }
+}
+
+export { myBlockquote }
+
+```
+
+display==="warn"のとき、blockquoteタグの子要素pタグにclass="warn"を、display==="info"のときはclass="info"、デフォルト（displayが渡されない）のときはclassをつけません。
+
+
+あとは、CSSinJSで各クラスの状態に応じて、スタイルを割り当てます。
+
+## RootMDX.jsx
+
+RootMDX.jsxは先程のh1タグのときと同様に、blockquoteを追記するだけです。
+
+```jsx
+// RootMDX.jsx
+
+import { myH1 } from "./Heading"
+import { myBlockquote } from "./Blockquote"
+
+const components = {
+    h1: myH1,
+    blockquote: myBlockquote,
+}
+
+export { components }
+```
+
+## 動作確認
+
+blockquoteはデフォルトの場合、MDXファイルで以下のように記述します。
+
+```post.mdx
+> デフォルトのblockquoteです。
+```
+
+> デフォルトのblockquoteです。
+
+表示を変えたい場合は以下のように記述します。
+
+```post.mdx
+<blockquote display="warn">
+    displayが"warn"のときのblockquoteです。
+</blockquote>
+
+<blockquote display="info">
+    displayが"info"のときのblockquoteです。
+</blockquote>
+
+```
+
+<blockquote display="warn">
+    displayが"warn"のときのblockquoteです。
+</blockquote>
+
+<blockquote display="info">
+    displayが"info"のときのblockquoteです。
+</blockquote>
+
+
+表示方法が変更されていることが確認できました。
+
+
+# まとめ
+
+今回はMDXComponentの使い方についてまとめました。
+
+GatsbyのMDX記事の導入方法は検索すると色々出てくるのですが、MDXComponentの設定となると記事がほとんど見当たらなかったので、備忘録もかねて書かせていただきました。
+
+GatsbyのMDX導入方法については、他の記事を参考にしていただければと思います。
+
+
+> [GatsbyでMDXを使う](https://knowledge-swimmer.com/gatsby-mdx)
+
