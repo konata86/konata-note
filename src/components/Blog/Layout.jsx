@@ -17,16 +17,17 @@ const Wrapper = styled.div`
     flex-direction: column;
   }
 
-  @media (min-width: 780px) {
+  @media (min-width: 960px) {
     #blog-container {
       flex-direction: row;
-      padding: 100px 10px 50px 10px;
+      padding: 100px 65px 50px 65px;
     }
 
     main {
         flex-basis: 70%;
         max-width: 70%;
     }
+    
     main.no-sidebar {
       flex-basis: 100%;
       max-width: 100%;

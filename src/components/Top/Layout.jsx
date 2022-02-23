@@ -11,10 +11,15 @@ import "../../styles/main.css"
 import styled from "styled-components"
 
 const Wrapper = styled.div`
-   @media (min-width: 780px) {
+   @media (min-width: 960px) {
         main {
             margin: 0 35px;
         }
+   }
+   @media (min-width: 1260px) {
+       main {
+           margin: 0 65px;
+       }
    }
  `
 

@@ -20,7 +20,7 @@ const Wrapper = styled.div`
     
   }
 
-  @media (min-width: 780px) {
+  @media (min-width: 960px) {
     .mdx-wrapper {
       margin: 15px;
     }

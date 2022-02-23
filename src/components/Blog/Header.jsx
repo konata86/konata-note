@@ -36,7 +36,7 @@ const PcMenu = styled.div`
   list-style: none;
   visibility: hidden;
 
-  @media (min-width: 780px) {
+  @media (min-width: 960px) {
     visibility: visible;
   }
 
@@ -65,7 +65,7 @@ const PcMenu = styled.div`
 const MobileMenu = styled.div`
 
 
-  @media (min-width: 780px) {
+  @media (min-width: 960px) {
     display: none;
     visibility: hidden;
     opacity: 0;

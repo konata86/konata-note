@@ -10,7 +10,7 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
 
-    @media (min-width: 780px) {
+    @media (min-width: 960px) {
         flex-basis: 30%;
     }
 `

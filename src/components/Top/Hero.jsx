@@ -8,7 +8,7 @@ const Wrapper = styled.section`
   justify-content: center;
   margin: 0 15px;
 
-  @media (min-width: 780px) {
+  @media (min-width: 960px) {
     margin: 0 35px;
   }
 
